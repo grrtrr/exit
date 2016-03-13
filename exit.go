@@ -1,6 +1,4 @@
-/*
- * Utilities to exit a program
- */
+// Package exit provides a few utility functions to exit a program with a message.
 package exit
 
 import (
@@ -10,7 +8,7 @@ import (
 	"os"
 )
 
-// Print a message @a to stderr and exit with 1 - fmt.Println variant.
+// Die prints a message @a to stderr and exits with 1 - fmt.Println variant.
 func Die(a ...interface{}) {
 	if len(a) > 0 {
 		fmt.Fprintln(os.Stderr, a...)
@@ -20,13 +18,13 @@ func Die(a ...interface{}) {
 	os.Exit(1)
 }
 
-// Like Die(), but with a format string - fmt.Printf variant.
+// Dief is like Die(), but with a format string - fmt.Printf variant.
 func Dief(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, strings.TrimSpace(format) + "\n", a...)
 	os.Exit(1)
 }
 
-// Like Die(), but preprend the name of the program.
+// PDie is like Die(), but preprends the name of the program.
 func PDie(a ...interface{}) {
 	fmt.Fprint(os.Stderr, path.Base(os.Args[0]) + ": ")
 	if len(a) > 0 {
@@ -36,31 +34,31 @@ func PDie(a ...interface{}) {
 	}
 }
 
-// Like Dief(), but preprend the name of the program.
+// PDief is like Dief(), but preprend the name of the program.
 func PDief(format string, a ...interface{}) {
 	Dief(path.Base(os.Args[0]) + ": " + format, a...)
 }
 
 
-// Die with a FATAL message - fmt.Println variant.
+// Fatal calls Die with a FATAL message - fmt.Println variant.
 func Fatal(a ...interface{}) {
 	fmt.Fprint(os.Stderr, "FATAL: ")
 	Die(a...)
 }
 
-// Die with a FATAL message - fmt.Printf / log.Fatalf variant.
+// Fatalf calls Dief with a FATAL message - fmt.Printf / log.Fatalf variant.
 func Fatalf(format string, a ...interface{}) {
 	Dief("FATAL: " + format, a...)
 }
 
 
-// Die with an ERROR message - fmt.Println variant.
+// Error calls Die with an ERROR message - fmt.Println variant.
 func Error(a ...interface{}) {
 	fmt.Fprint(os.Stderr, "ERROR: ")
 	Die(a...)
 }
 
-// Die with an ERROR message - fmt.Printf variant.
+// Errorf cals Dief with an ERROR message - fmt.Printf variant.
 func Errorf(format string, a ...interface{}) {
 	Dief("ERROR: " + format, a...)
 }
